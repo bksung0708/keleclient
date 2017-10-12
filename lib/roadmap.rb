@@ -9,13 +9,12 @@ module Roadmap
     @checkpoint_data = JSON.parse(response.body)
   end
 
-  def create_submission(enrollment_id, checkpoint_id, assignment_branch, assignment_commit_link, comment)
-    response = self.class.post("/checkpoint_submissions", body: { "enrollment_id" => enrollment_id, "checkpoint_id" => checkpoint_id, "assignment_branch" => assignment_branch, "assignment_commit_link" => assignment_commit_link, "comment" => comment } )
+  def create_submission(checkpoint_id, assignment_branch, assignment_commit_link, comment)
+    @enrollment_id = self.get_me["current_enrollment"]["id"]
+    response = self.class.post("/checkpoint_submissions", body: { "enrollment_id": @enrollment_id, "checkpoint_id" => checkpoint_id, "assignment_branch" => assignment_branch, "assignment_commit_link" => assignment_commit_link, "comment" => comment } )
   end
 end
 
-# 2.4.0 :003 > enrollment_id = 31472
-#  => 31472
 # 2.4.0 :004 > checkpoint_id = 2555
 #  => 2555
 # 2.4.0 :005 > assignment_branch = "kele_7"
